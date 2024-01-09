@@ -9,10 +9,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.servlet.GenericServlet;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebServlet;
+
+import org.apache.catalina.connector.Response;
 
 @WebServlet("/retrive")
 public class RetrivalServlet extends GenericServlet {
@@ -26,6 +29,7 @@ public class RetrivalServlet extends GenericServlet {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/books","root","root");
 			String qry="select * from BookData";
+			RequestDispatcher rd=req.getRequestDispatcher("/edit.html");
 			PreparedStatement ps=con.prepareStatement(qry);
 			ResultSet rs=ps.executeQuery();
 			pw.print("<head>\r\n"
@@ -37,8 +41,8 @@ public class RetrivalServlet extends GenericServlet {
 					+ "<h2 class=\"bg-danger text-white text-center\">Actions</h2>");
 			pw.println("<form><button formAction='home.html'>Add Book</button>&nbsp;&nbsp;"
 					+ "<button formaction='search.html'>SearchBook</button>&nbsp;&nbsp;"
-					+ "<button formaction='searchauthor.html'>SearchAuthor</button>"+
-					"</form>");
+					+ "<button formaction='searchauthor.html'>SearchAuthor</button>&nbsp;&nbsp;"
+					+ "</form>");
 			pw.println("<br></br><h2 class='bg-danger text-white text-center'>BooksList</h2>");
 			pw.println("<table class='table table-hover'><th>BookId</th><th>BookName</th><th>BookEdition</th>"
 					+ "<th>BookAuthor</th><th>BookPrice</th><th>Operations</th>"
@@ -46,7 +50,12 @@ public class RetrivalServlet extends GenericServlet {
 			while(rs.next()) {
 				int id=rs.getInt(1);
 				pw.println("<tr><td>"+rs.getInt(1)+"</td><td>"+rs.getString(2)+"</td><td>"+rs.getString(3)+"</td>"
-						+ "<td>"+rs.getString(4)+"</td><td>"+rs.getDouble(5)+"</td><td><a href='edit?Id='10'/a>Edit</td></tr>");
+				        + "<td>"+rs.getString(4)+"</td><td>"+rs.getDouble(5)+"</td><td><form action='delete'>"
+				        + "<input type='hidden' name='Id' value='"+rs.getInt(1)+"'><button type='submit'>Delete"
+				       + "</button></form><br></br>"
+				       + "<form action='view'><input type='hidden' name='Id' value='"+rs.getInt(1)+"'><button type='submit'>View"
+				       		+ "</button><form></td></tr>");
+
 				
 			}
 			pw.println("</table>");
