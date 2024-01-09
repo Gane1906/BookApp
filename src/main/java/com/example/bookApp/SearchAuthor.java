@@ -29,9 +29,10 @@ public class SearchAuthor extends GenericServlet {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/books","root","root");
-			String qry="select * from bookdata where author=?";
+			String qry="select * from BookData where LOWER(Author) like lower(?)";
 			PreparedStatement ps=con.prepareStatement(qry);
-			ps.setString(1,author);
+			//ps.setString(1,author);
+			ps.setString(1, "%" + author + "%");
 			ResultSet rs=ps.executeQuery();
 			pw.print("<head>\r\n"
 					+ "<meta charset='UTF-8'>\r\n"
