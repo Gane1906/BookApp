@@ -52,10 +52,17 @@ public class RetrivalServlet extends GenericServlet {
 				pw.println("<tr><td>"+rs.getInt(1)+"</td><td>"+rs.getString(2)+"</td><td>"+rs.getString(3)+"</td>"
 				        + "<td>"+rs.getString(4)+"</td><td>"+rs.getDouble(5)+"</td><td><form action='delete'>"
 				        + "<input type='hidden' name='Id' value='"+rs.getInt(1)+"'><button type='submit'>Delete"
-				       + "</button></form><br></br>"
-				       + "<form action='view'><input type='hidden' name='Id' value='"+rs.getInt(1)+"'><button type='submit'>View"
-				       		+ "</button><form></td></tr>");
-
+				       + "</button></form><br></br>"+
+				        "<form action='view'>"
+				        + "<input type='hidden' name='Id' value='"+rs.getInt(1)+"'>"+
+				        "<button type='submit'>View</button></form><br></br>"
+				       + "<form action='edit.jsp'>"
+				       + "<input type='hidden' name='Id' value='"+rs.getInt(1)+"'>"+
+				       "<input type='hidden' name='bookName' value='"+rs.getString(2)+"'>"+
+				       "<input type='hidden' name='bookEdition' value='"+rs.getString(3)+"'>"+
+				       "<input type='hidden' name='bookAuthor' value='"+rs.getString(4)+"'>"+
+				       "<input type='hidden' name='bookPrice' value='"+rs.getDouble(5)+"'>"
+				       + "<button type='submit'>Edit</button><form></td></tr>");
 				
 			}
 			pw.println("</table>");
